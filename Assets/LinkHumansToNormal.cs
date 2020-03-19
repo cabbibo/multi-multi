@@ -12,25 +12,44 @@ public class LinkHumansToNormal : Cycle
     public HumanBuffer buffer;
    
     public void Recreate(){
-      Reset();
-      _Destroy(); 
-      _Create(); 
-      _OnGestate();
-      _OnGestated();
-      _OnBirth(); 
-      _OnBirthed();
+      buffer.Reset();
+      buffer._Destroy(); 
+      buffer._Create(); 
+      buffer._OnGestate();
+      buffer._OnGestated();
+      buffer._OnBirth(); 
+      buffer._OnBirthed();
     }
 
 
     public void OnEnable(){
       manager.avatarCreated += AvatarCreated;
+      manager.avatarDestroyed += AvatarDestroyed;
     }
 
     public void OnDisable(){
       manager.avatarCreated -= AvatarCreated;
+      manager.avatarDestroyed -= AvatarDestroyed;
     }
 
     public void AvatarCreated( RealtimeAvatarManager avatarManager, RealtimeAvatar avatar, bool isLocalAvatar){
+
+      buffer.humans = new Human[ avatarManager.avatars.Count ];
+
+      print( avatarManager.avatars.Count  );
+      print( buffer.humans.Length  );
+      int index = 0;
+      foreach(KeyValuePair<int, RealtimeAvatar> entry in avatarManager.avatars){ 
+        buffer.humans[ index ] = entry.Value.GetComponent<Human>();
+        print( buffer.humans[0].LeftHand.transform.position );
+        index ++;
+      }
+
+      Recreate();
+    }
+
+
+    public void AvatarDestroyed(RealtimeAvatarManager avatarManager, RealtimeAvatar avatar, bool isLocalAvatar){
 
       buffer.humans = new Human[ avatarManager.avatars.Count ];
       int index = 0;

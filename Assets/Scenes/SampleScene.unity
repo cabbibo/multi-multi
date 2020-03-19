@@ -527,7 +527,7 @@ MonoBehaviour:
   died: 0
   destroyed: 0
   debug: 0
-  active: 0
+  active: 1
   data: {fileID: 1050635122}
   Cycles: []
   manager: {fileID: 1013654324}
@@ -608,7 +608,7 @@ MonoBehaviour:
   Cycles:
   - {fileID: 1050635121}
   camera: {fileID: 2078734521}
-  SERVER_TIME: 0.3748876
+  SERVER_TIME: 23.663958
   humans: {fileID: 1050635121}
 --- !u!114 &1050635123
 MonoBehaviour:
@@ -791,8 +791,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1142604007}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 1.12, z: 0}
-  m_LocalScale: {x: 147.5163, y: 147.5163, z: 147.5163}
+  m_LocalPosition: {x: 0, y: 1.18, z: -1.22}
+  m_LocalScale: {x: 81.998405, y: 81.998405, z: 81.998405}
   m_Children: []
   m_Father: {fileID: 1050635119}
   m_RootOrder: 1
@@ -923,21 +923,21 @@ MonoBehaviour:
   skeleton: {fileID: 1862401044}
   radius: 0
   transformArray:
-  - 147.5163
+  - 81.998405
   - 0
   - 0
   - 0
   - 0
-  - -0.000017585313
-  - 147.51631
+  - -0.000009774972
+  - 81.99841
   - 0
   - 0
-  - -147.51631
-  - -0.000017585313
+  - -81.99841
+  - -0.000009774972
   - 0
   - 0
-  - 1.12
-  - 0
+  - 1.18
+  - -1.22
   - 1
 --- !u!114 &1142604014
 MonoBehaviour:
@@ -1261,8 +1261,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1726267326}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -3.62}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.46107, y: 0.46107, z: 0.46107}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4

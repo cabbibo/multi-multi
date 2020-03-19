@@ -73,7 +73,7 @@ private List<InputDevice> devicesWithTrigger;
           // Update the model to have the latest input values
           GetInputAxis();
       }else{
-        print("non local owned");
+        //print("non local owned");
       }
 
 
