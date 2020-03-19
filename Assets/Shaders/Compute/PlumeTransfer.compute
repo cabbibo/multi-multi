@@ -1,0 +1,112 @@
+﻿#pragma kernel Transfer
+
+#include "../Chunks/noise.cginc"
+#include "../Chunks/snoise.cginc"
+#include "../Chunks/curlNoise.cginc"
+
+
+float4x4 _Transform; 
+float _Time;
+
+
+struct Vert{
+  float3 pos;
+  float3 vel;
+  float3 nor;
+  float3 tang;
+  float2 uv;
+  float2 debug;
+};
+
+
+
+
+RWStructuredBuffer<Vert> _VertBuffer;
+RWStructuredBuffer<Vert> _SkeletonBuffer;
+RWStructuredBuffer<Vert> _BaseBuffer;
+
+uint _VertBuffer_COUNT;
+uint _SkeletonBuffer_COUNT;
+uint _BaseBuffer_COUNT;
+
+#include "../Chunks/safeID.cginc"
+
+uint _VertsPerVert;
+
+float3 _CameraRight;
+float3 _CameraUp;
+float3 _CameraForward;
+float _Radius;
+
+#define NR_THREADS 128
+
+[numthreads(NR_THREADS,1,1)]
+void Transfer(uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uint3 id : SV_DispatchThreadID) {
+
+
+  uint pID = threadID + u3GroupID.x * NR_THREADS;
+  uint idInParticle = pID %8;
+  uint UD = idInParticle / 4;
+  idInParticle = idInParticle % 4;
+  uint sID = pID / 8;
+  uint bID = sID / _VertsPerVert;
+  uint remain = sID % _VertsPerVert;
+  if( pID < _VertBuffer_COUNT  ){
+
+
+    pID = safeID( pID , _VertBuffer_COUNT );
+    sID = safeID( sID , _SkeletonBuffer_COUNT );
+    bID = safeID( bID , _BaseBuffer_COUNT );
+    
+    Vert vert = _VertBuffer[pID];
+    Vert skeleton = _SkeletonBuffer[sID];
+    Vert base = _BaseBuffer[bID];
+
+    float3 r = _CameraRight;
+    float3 u = _CameraUp;
+
+    float3 bP = skeleton.pos;
+
+ float3 p0;
+ float3 p1;
+ float3 p2;
+ float3 p3;
+
+    if( UD == 0 ){
+        p0 = bP + ( -r -u) * _Radius;
+        p1 = bP + ( +r -u) * _Radius;
+        p2 = bP + ( -r +u) * _Radius;
+        p3 = bP + ( +r +u) * _Radius;
+    
+    }else{
+     
+        r = skeleton.pos - base.pos;
+        u = normalize(cross(r , _CameraForward));
+
+        p0 = skeleton.pos - u * _Radius * .5;
+        p1 = skeleton.pos + u * _Radius * .5;
+        p2 = base.pos - u * _Radius * .5;
+        p3 = base.pos + u * _Radius * .5;
+    }
+
+    if( idInParticle == 0 ){
+        vert.pos = p0;
+    }else if( idInParticle == 1 ){
+        vert.pos = p1;
+    }else if( idInParticle == 2 ){
+        vert.pos = p2;
+    }else if( idInParticle == 3 ){
+        vert.pos = p3;
+    }
+
+    vert.nor = skeleton.nor;
+
+    //vert.pos = float3(1,1,1);
+
+    
+
+    _VertBuffer[pID] = vert;
+
+  }
+  
+}

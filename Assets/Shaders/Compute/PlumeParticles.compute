@@ -1,0 +1,101 @@
+﻿#pragma kernel Simulate
+
+#include "../Chunks/noise.cginc"
+#include "../Chunks/snoise.cginc"
+#include "../Chunks/curlNoise.cginc"
+
+
+float4x4 _Transform; 
+float _Time;
+
+
+struct Vert{
+  float3 pos;
+  float3 vel;
+  float3 nor;
+  float3 tang;
+  float2 uv;
+  float2 debug;
+};
+
+
+
+
+RWStructuredBuffer<Vert> _VertBuffer;
+RWStructuredBuffer<Vert> _BaseBuffer;
+
+uint _VertBuffer_COUNT;
+uint _BaseBuffer_COUNT;
+
+#include "../Chunks/safeID.cginc"
+
+uint _NumVertsPerHair;
+uint _VertsPerVert;
+
+#define NR_THREADS 64
+
+[numthreads(NR_THREADS,1,1)]
+void Simulate (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uint3 id : SV_DispatchThreadID) {
+
+
+  uint pID = threadID + u3GroupID.x * NR_THREADS;
+  uint bID = pID / _VertsPerVert;
+  uint remain = pID % _VertsPerVert;
+  if( pID < _VertBuffer_COUNT && bID < _BaseBuffer_COUNT ){
+
+
+    pID = safeID( pID , _VertBuffer_COUNT );
+    bID = safeID( bID , _BaseBuffer_COUNT );
+    
+    Vert vert = _VertBuffer[pID];
+    Vert base = _BaseBuffer[bID];
+
+    float3 bP = base.pos;//mul( transform,  float4(base.pos,1)).xyz;
+   
+    float3 force = base.nor * .02;
+    float3 dif =  base.pos - vert.pos;
+    
+    force += dif;
+
+    
+
+    
+
+    for( int i = 0; i < _VertsPerVert; i++ ){
+        if( i != remain ){
+            float3 dif = vert.pos - _VertBuffer[safeID(bID * _VertsPerVert + i , _VertBuffer_COUNT)].pos;
+            if( length( dif ) > 0 ){
+                dif = normalize( dif );
+                force += dif * .03 / float(_VertsPerVert);
+            }else{
+                force += float3(hash( float(pID) ) * .01, hash( float(pID * 10) ) * .01, hash( float(pID * 20) ) * .01);
+            }
+        }
+    }
+
+
+if( length(force)  > 10 ){
+    vert.pos = base.pos;
+}
+    vert.vel += force * .001;
+    vert.pos += vert.vel;
+
+    vert.nor = -dif;
+    if( length( vert.nor )> 0){ 
+        vert.nor = normalize( vert.nor );
+    }else{ 
+        vert.nor = float3(0,1,0);
+    }
+
+
+if( length(dif)> 3){
+        vert.pos = base.pos;
+    }
+
+    vert.vel *= .95;
+
+    _VertBuffer[pID] = vert;
+
+  }
+  
+}
