@@ -39,6 +39,8 @@ public class LinkHumansToNormal : Cycle
         print( buffer.humans[0].LeftHand.transform.position );
         index ++;
       }
+
+      Recreate();
     }
 
 }
