@@ -38,31 +38,17 @@ struct Vert{
 };
 
 
-struct Base{
-  float4x4 ltw;
-  float4x4 wtl;
+struct Base {
+  float4x4 leftHand;
+  float4x4 rightHand;
+  float4x4 head;
+  float leftTrigger;
+  float rightTrigger;
+  float voice;
+  float debug;
 };
 
 
-/*struct Base{
-  float3 pos;
-  float3 vel;
-  float3 nor;
-  float3 tang;
-  float2 uv;
-  float used;
-  float3 triIDs;
-  float3 triWeights;
-  float3 debug;
-};*/
-
-
-struct Bone{
-  float3 start;
-  float3 end;
-  float  size;
-  float  id;
-};
 
 
 float _NormalForce;
@@ -121,8 +107,8 @@ void Set (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uint3 id 
     Base base = _BaseBuffer[safeID( bID , _BaseBuffer_COUNT )];
 
   
-    float3 bP = mul( base.ltw,  float4(0,0,0,1)).xyz;
-    float3 bN = mul( base.ltw,  float4(0,1,0,0)).xyz;
+    float3 bP = mul( base.rightHand,  float4(0,0,0,1)).xyz;
+    float3 bN = mul( base.rightHand,  float4(0,1,0,0)).xyz;
       float3 s = float3(1,1,1);//mul( transform , float4(1,1,1,0)).xyz;
 
     float l = float(pID % _NumVertsPerHair ) / float(_NumVertsPerHair);
@@ -170,8 +156,8 @@ void Collision (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
 
    // if( base.used == 1 ){
 
-    float3 bP = mul( base.ltw,  float4(0,0,0,1)).xyz;
-    float3 bN = mul( base.ltw,  float4(0,1,0,0)).xyz;
+    float3 bP = mul( base.rightHand,  float4(0,0,0,1)).xyz;
+    float3 bN = mul( base.rightHand,  float4(0,1,0,0)).xyz;
     //float3 bN = base.nor;//normalize(mul( transform,  float4(base.nor,0))).xyz;
     float3 s = float3(1,1,1);//mul( transform , float4(1,1,1,0)).xyz;
 

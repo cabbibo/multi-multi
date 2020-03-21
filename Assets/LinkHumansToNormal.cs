@@ -12,13 +12,7 @@ public class LinkHumansToNormal : Cycle
     public HumanBuffer buffer;
    
     public void Recreate(){
-      buffer.Reset();
-      buffer._Destroy(); 
-      buffer._Create(); 
-      buffer._OnGestate();
-      buffer._OnGestated();
-      buffer._OnBirth(); 
-      buffer._OnBirthed();
+     data.god.Rebuild();
     }
 
 

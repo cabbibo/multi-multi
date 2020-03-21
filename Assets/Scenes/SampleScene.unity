@@ -608,7 +608,7 @@ MonoBehaviour:
   Cycles:
   - {fileID: 1050635121}
   camera: {fileID: 2078734521}
-  SERVER_TIME: 23.663958
+  SERVER_TIME: 0
   humans: {fileID: 1050635121}
 --- !u!114 &1050635123
 MonoBehaviour:
@@ -791,8 +791,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1142604007}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 1.18, z: -1.22}
-  m_LocalScale: {x: 81.998405, y: 81.998405, z: 81.998405}
+  m_LocalPosition: {x: 0, y: 1.18, z: 0}
+  m_LocalScale: {x: 104.67097, y: 104.67097, z: 104.67097}
   m_Children: []
   m_Father: {fileID: 1050635119}
   m_RootOrder: 1
@@ -923,21 +923,21 @@ MonoBehaviour:
   skeleton: {fileID: 1862401044}
   radius: 0
   transformArray:
-  - 81.998405
+  - 104.67097
   - 0
   - 0
   - 0
   - 0
-  - -0.000009774972
-  - 81.99841
+  - -0.000012477752
+  - 104.67098
   - 0
   - 0
-  - -81.99841
-  - -0.000009774972
+  - -104.67098
+  - -0.000012477752
   - 0
   - 0
   - 1.18
-  - -1.22
+  - 0
   - 1
 --- !u!114 &1142604014
 MonoBehaviour:
@@ -1067,6 +1067,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1185430189}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1377736306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1377736305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 700c6bbe644319b4aaa44642fe5fd9ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1377736308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1213,7 +1225,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1726267326}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

@@ -23,6 +23,7 @@ public class Data : Cycle
   public Transform camera;
   public float SERVER_TIME;
   public HumanBuffer humans;
+  public God god;
 
   public override void Create(){
     SafeInsert(humans);

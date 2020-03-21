@@ -20,12 +20,12 @@ public class OnPlayerAdd : MonoBehaviour
       {
         if( isLocalAvatar ){
 
-        float angle = (float)entry.Key * 0;
+        float angle = (float)entry.Key;
 
         float x = Mathf.Sin( angle );
         float y = -Mathf.Cos( angle );
 
-         localTransform.position = new Vector3( x * 2 , 0 , y * 2);
+         localTransform.position = new Vector3( x * 1 , 0 , y * 1);
 
          localTransform.LookAt( Vector3.zero );
         }
