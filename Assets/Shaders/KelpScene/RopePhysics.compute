@@ -27,8 +27,6 @@ float3 _HandR;
 
 
 
-float3 _PlayerPosition;
-
 struct Vert{
   float3 pos;
   float3 oPos;
@@ -37,7 +35,6 @@ struct Vert{
   float2 uv;
   float2 debug;
 };
-
 
 struct Base{
   float4x4 localToWorld;
@@ -108,13 +105,16 @@ void Set (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uint3 id 
 
     pID = safeID( pID , _VertBuffer_COUNT );
     Vert vert = _VertBuffer[pID];
+
     Base base1 = _BaseBuffer[safeID( bID * 2 , _BaseBuffer_COUNT )];
     Base base2 = _BaseBuffer[safeID( bID * 2 + 1 , _BaseBuffer_COUNT )];
 
     float3 bP1 = mul( base1.localToWorld , float4(0,0,0,1)).xyz;//bP1;//mul( transform,  float4(base.pos,1)).xyz;
     float3 bP2 = mul( base2.localToWorld , float4(0,0,0,1)).xyz;//base1.pos;//mul( transform,  float4(base.pos,1)).xyz;
+    
     float3 bN1 = normalize(mul( base2.localToWorld , float4(0,1,0,0)).xyz);//base1.pos;//mul( transform,  float4(base.pos,1)).xyz;
     float3 bN2 = normalize(mul( base2.localToWorld , float4(0,1,0,0)).xyz);//base1.pos;//mul( transform,  float4(base.pos,1)).xyz;
+    
     float3 s = float3(1,1,1);//mul( transform , float4(1,1,1,0)).xyz;
 
     float l = float(pID % _NumVertsPerHair ) / float(_NumVertsPerHair);
@@ -149,11 +149,14 @@ void Collision (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
 
     pID = safeID( pID , _VertBuffer_COUNT );
     bID = safeID( bID , _BaseBuffer_COUNT );
+    
     Vert vert = _VertBuffer[pID];
     Base base1 = _BaseBuffer[bID*2];
     Base base2 = _BaseBuffer[bID*2+1];
+
     float3 bP1 = mul( base1.localToWorld , float4(0,0,0,1)).xyz;
     float3 bP2 = mul( base2.localToWorld , float4(0,0,0,1)).xyz;
+
     float3 bN1 = normalize(mul( base2.localToWorld , float4(0,1,0,0)).xyz);
     float3 bN2 = normalize(mul( base2.localToWorld , float4(0,1,0,0)).xyz);
 
@@ -161,8 +164,8 @@ void Collision (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
 
     float3 force = float3(0,-10,0);//bN * _NormalForce;//float3( 0 , base.nor , 0.0 );
 
-    force += HumanRayForces( vert.pos );
-    force += curlNoise( vert.pos + _Time ) * 20;
+   // force += HumanRayForces( vert.pos );
+    //force += curlNoise( vert.pos + _Time ) * 1;
     // Inertia: objects in motion stay in motion.
     float3 vel = getVel( vert.pos , vert.oPos);
 
@@ -201,7 +204,7 @@ void Collision (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
       vert.pos = bP2; 
       vert.oPos = bP2;
       tb = true;
-      vert.nor = normalize(vert.pos - v2.pos);;
+      vert.nor = normalize(vert.pos - v2.pos);
 
     }else{
 
@@ -220,7 +223,7 @@ void Collision (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
     if( _Delta  < .1 && tb == false ){
 
       float dampening =.95;//_Dampening;//.99999;// - vert.life * .01;
-      float3 next = vert.pos + vel * dampening + force * _Delta * _Delta;
+      float3 next = vert.pos + vel * dampening + force  * .0001;//* _Delta * _Delta;
 
       vert.oPos = vert.pos;
       vert.pos = next;
@@ -301,7 +304,7 @@ float3 s = length(mul( transform , float4(1,1,1,0)).xyz)/3;
       if( v1.uv.x == 0 ){
         v1.pos = v1.pos;
         v2.pos = n2 - t2;
-        }else{
+      }else{
         // move towards
         v1.pos = n1;
         v2.pos = n2;

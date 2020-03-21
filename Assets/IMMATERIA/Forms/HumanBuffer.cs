@@ -28,9 +28,6 @@ debug
 float[] tmp;
 
 public override void Create(){
-  print("Hello");
-  print("HUMANO LENGHT");
-  print(humans.Length);
   count = humans.Length;
   values = new float[count * (16 * 3 + 4)];
 }
