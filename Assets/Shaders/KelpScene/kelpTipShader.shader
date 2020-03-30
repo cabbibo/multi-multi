@@ -89,22 +89,17 @@ Tags { "RenderType"="Opaque" }
             fixed4 frag (v2f v) : SV_Target
             {
                 // sample the texture
-fixed shadow = UNITY_SHADOW_ATTENUATION(v,v.worldPos) * .5 + .5;
+                fixed shadow = UNITY_SHADOW_ATTENUATION(v,v.worldPos) * .5 + .5;
                 float val = -dot(normalize(_WorldSpaceLightPos0.xyz),normalize(v.nor));// -DoShadowDiscard( i.worldPos , i.uv , i.nor );
 
                  float4 tCol = tex2D(_MainTex, v.uv );
                  float vL = length(v.uv-.5) ;
                  if( length( tCol ) < .1){ discard; }
 
+                 float4 cCol = tex2D(_ColorMap,sin( v.id) * .1 + _Time.y);
 
-                  float match = dot(normalize(_WorldSpaceLightPos0.xyz), normalize(v.nor));
-                 //if( vL > .4 ){ discard; }
-                 float4 aCol = tex2D(_AudioMap,v.debug.y * .1 + float2( length(v.uv-.5) * .04 , 0) );
-                 float4 cCol = tex2D(_ColorMap,length(v.vel * 10) );
-
-                 float3 cubeCol = texCUBE(_CubeMap , normalize(v.vel));
                 fixed4 col = 1;
-                col.xyz =  cubeCol;//cCol;//match;//1;//aCol * aCol * 2 * (normalize(v.vel) *  .5 + .5) * clamp(length(v.vel) * 30, 0 ,1);//match;//saturate(match+.5)*1.1*tCol*tex2D(_ColorMap , float2( length( tCol) * .1 + sin(vL*10 + length(tCol)*10 - _Time.y*10  * sin(v.id/300)) * .04 + sin(v.id/1000) * .2+  _HueStart   + match *.2, 0) );//saturate(((_Time-v.debug.y) * 1 )) *  tex2D(_ColorMap , float2( length( tCol) * length( tCol ) * .1  + _HueStart , 0) )  * tCol* tCol;//* 20-10;//*tCol* lookupVal*4;//* 10 - 1;
+                col.xyz =  cCol;//cCol;//match;//1;//aCol * aCol * 2 * (normalize(v.vel) *  .5 + .5) * clamp(length(v.vel) * 30, 0 ,1);//match;//saturate(match+.5)*1.1*tCol*tex2D(_ColorMap , float2( length( tCol) * .1 + sin(vL*10 + length(tCol)*10 - _Time.y*10  * sin(v.id/300)) * .04 + sin(v.id/1000) * .2+  _HueStart   + match *.2, 0) );//saturate(((_Time-v.debug.y) * 1 )) *  tex2D(_ColorMap , float2( length( tCol) * length( tCol ) * .1  + _HueStart , 0) )  * tCol* tCol;//* 20-10;//*tCol* lookupVal*4;//* 10 - 1;
                 if( vL > .3){ col = 0;}
                   //if( v.debug.x > .5 ){ col =float4(1,0,0,1);}
                 

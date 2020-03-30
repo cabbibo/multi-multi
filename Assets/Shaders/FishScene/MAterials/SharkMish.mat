@@ -24,7 +24,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ColorMap:
-        m_Texture: {fileID: 2800000, guid: eedfb8a6ad096bc42a76e87d19c1eec4, type: 3}
+        m_Texture: {fileID: 2800000, guid: 91fc3145049f7614982ffffccbc4ee89, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _CubeMap:
@@ -56,7 +56,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: a9fe4334451efb44f8db6c4403d20196, type: 3}
+        m_Texture: {fileID: 2800000, guid: 49978a855f9711241afd61587eb64194, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -64,7 +64,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _PLightMap:
-        m_Texture: {fileID: 2800000, guid: 0eda96af060b05c4cb7aa60fe75ed2b2, type: 3}
+        m_Texture: {fileID: 2800000, guid: 49978a855f9711241afd61587eb64194, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _PLightMap1:
@@ -88,15 +88,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShinyMap:
-        m_Texture: {fileID: 2800000, guid: 95f41a338b9ba1d4cab84942b13670ce, type: 3}
+        m_Texture: {fileID: 2800000, guid: 49978a855f9711241afd61587eb64194, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureMap:
-        m_Texture: {fileID: 2800000, guid: efee55446264614468a0cfe78d712806, type: 3}
+        m_Texture: {fileID: 2800000, guid: 91fc3145049f7614982ffffccbc4ee89, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Brightness: -0
+    - _Brightness: 0.3
     - _BumpScale: 1
     - _ColorRandomSize: 0.56
     - _ColorStart: 0.58

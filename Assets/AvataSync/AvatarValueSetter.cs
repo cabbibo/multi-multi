@@ -10,6 +10,7 @@ public class AvatarValueSetter : RealtimeComponent {
 
     private AvatarModel _model;
     public Human human;
+    public RealtimeAvatarVoice voice;
 
 
     public TextMesh ltv;
@@ -72,8 +73,10 @@ private List<InputDevice> devicesWithTrigger;
 
           // Update the model to have the latest input values
           GetInputAxis();
+          _model.debug = realtimeView.ownerID;
       }else{
         //print("non local owned");
+
       }
 
 
@@ -81,11 +84,12 @@ private List<InputDevice> devicesWithTrigger;
       ltv.text = "LT : " + _model.leftTrigger;
       rtv.text = "RT : " + _model.rightTrigger;
 
-      human.LeftTrigger = _model.leftTrigger;
-      human.RightTrigger = _model.rightTrigger;
+      human.LeftTrigger   = _model.leftTrigger;
+      human.RightTrigger  = _model.rightTrigger;
 
 
-
+      human.Voice     = _model.voice;
+      human.DebugVal  = _model.debug;
 
     }
 
@@ -105,5 +109,7 @@ private List<InputDevice> devicesWithTrigger;
           }
   
         }
+
+        if( voice ){ _model.voice = voice.voiceVolume;  }
     }
 }

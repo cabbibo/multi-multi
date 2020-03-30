@@ -9,6 +9,7 @@ public class OnPlayerAdd : MonoBehaviour
   public RealtimeAvatarManager manager;
   public Transform localTransform;
   public Transform fakeHuman;
+  public float Radius;
 
     // Start is called before the first frame update
     void Start()
@@ -26,11 +27,11 @@ public class OnPlayerAdd : MonoBehaviour
         float x = Mathf.Sin( angle );
         float y = -Mathf.Cos( angle );
 
-         fakeHuman.position = new Vector3( x * 1 , 0 , y * 1);
+         fakeHuman.position = new Vector3( x * Radius , 0 , y * Radius);
 
          fakeHuman.LookAt( Vector3.zero );
       }else{
-        fakeHuman.position = Vector3.left * 100000;
+        fakeHuman.position = Vector3.left * 10000;
       }
       foreach(KeyValuePair<int, RealtimeAvatar> entry in avatarManager.avatars)
       {
@@ -42,7 +43,7 @@ public class OnPlayerAdd : MonoBehaviour
         float x = Mathf.Sin( angle );
         float y = -Mathf.Cos( angle );
 
-         localTransform.position = new Vector3( x * 1 , 0 , y * 1);
+         localTransform.position = new Vector3( x * Radius , 0 , y * 1);
 
          localTransform.LookAt( Vector3.zero );
         }

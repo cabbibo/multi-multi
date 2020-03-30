@@ -1,8 +1,9 @@
-﻿#pragma kernel Transfer
-#pragma kernel StraightTransfer
-#pragma kernel BellTransfer
-#pragma kernel BellLessTransfer
-#pragma kernel WonkyTransfer
+﻿#pragma kernel Straight
+#pragma kernel Bell
+#pragma kernel Wonky
+#pragma kernel Wonky2
+#pragma kernel DoubleBell
+#pragma kernel Tongue
 
 struct Vert{
     float3 pos;
@@ -95,50 +96,85 @@ float3 cubicFromValue( in float val , in int particleID, out float3 upPos , out 
 
 }
 
-#define NR_THREADS 128
-[numthreads(NR_THREADS,1,1)]
-void Transfer (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID) {
+void GetInfo( in int id ,  
+              out float3 pos , 
+              out float3 z , 
+              out float3 x ,  
+              out float3 y , 
+              out float3 nor , 
+              out float3 tangent, 
+              out float2 uv, 
+              out float colVal , 
+              out float rowVal , 
+              out float angle, 
+              out int particleID ){
 
-    int pID = threadID + u3GroupID.x * NR_THREADS;
+    particleID = id / ( _TubeLength * (_TubeWidth+1));
 
-    int particleID = pID / ( _TubeLength * _TubeWidth);
+    int idInTube = id % ( _TubeLength * (_TubeWidth+1));
+    int row = idInTube / (_TubeWidth+1);
+    int col = id % (_TubeWidth+1);
 
-    int idInTube = pID % ( _TubeLength * _TubeWidth);
-    int row = idInTube / _TubeWidth;
-    int col = pID % _TubeWidth;
-
-    float rowVal = float(row) / float(_TubeLength);
-    float colVal =  (float(col)/float(_TubeWidth)) ;
+    rowVal =  (float(row) / float(_TubeLength)) ;
+    colVal =  (float(col%_TubeWidth)/float(_TubeWidth)) ;
 
     float3 upPos; float3 doPos;
 
-    float3 pos = cubicFromValue( rowVal , particleID , upPos , doPos );
+    pos = cubicFromValue( rowVal , particleID , upPos , doPos );
 
-    float3 d = normalize(upPos - pos);
-    float3 x = normalize(cross( d , float3(0,1,0)) );
-    float3 y = normalize(cross( x , d));
+    z = normalize(upPos - pos);
+    x = normalize(cross( z , float3(1,0,0)) );
+    y = normalize(cross( x , z));
 
-    float angle = colVal * 2*3.14159;
 
-    float r = _Radius*.02*sin(3.14159*float(row)/float(_TubeLength));//sin( rowVal * 3.14159) * .02; + .001 * (1-rowVal);
+    angle = colVal * 2*3.14159;
+    nor = (sin(angle) *x - cos(angle) * y);// * r;
+    tangent =  normalize(cross(nor,z));
+    uv = float2( rowVal , colVal + col / _TubeWidth );
 
-    float3 outVec = (sin(angle) *x - cos(angle) * y);// * r;
-    float3 fPos = pos + outVec * r;
+}
 
-    float2 fUV = float2( rowVal , colVal );
-    float3 fNor = normalize( outVec );
-    float3 fTan = -normalize(cross(fNor,d));
-
-    int sID = safeID( pID , _VertBuffer_COUNT );
+void SetInfo( int id , float3 pos , float3 nor , float3 tangent , float2 uv,float2 debug ){
+    int sID = safeID( id , _VertBuffer_COUNT );
     Vert v = _VertBuffer[sID];
-
-   
-    v.nor = -fNor;
-    v.uv = fUV;
-    v.tangent = fTan;
-    v.debug = float2(float(particleID),length(v.pos-fPos));
-    v.pos = fPos;
+    v.pos = pos; v.vel = v.pos-pos; v.nor = nor; v.tangent = tangent; v.uv = uv; v.debug = debug;
     _VertBuffer[sID] = v;
+}
+
+#define NR_THREADS 128
+[numthreads(NR_THREADS,1,1)]
+void DoubleBell(uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID) {
+
+    int pID = threadID + u3GroupID.x * NR_THREADS;
+
+    float3 pos , x , y ,z, nor,tangent;float2 uv; float colVal , rowVal,angle; int particleID;
+    GetInfo( pID , pos , z, x , y,nor,tangent,uv, colVal, rowVal,angle,particleID );
+
+    float iRow = (1-rowVal);
+    float r = _Radius* max(  iRow * iRow * .5 , .2+ rowVal* rowVal * 1.4);
+    float3 fPos = pos + nor * r;
+    float2 debug = float2(float(particleID),pID);
+
+    SetInfo( pID , fPos , nor ,tangent , uv, debug ); 
+   
+
+}
+
+#define NR_THREADS 128
+[numthreads(NR_THREADS,1,1)]
+void Bell(uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID) {
+
+    int pID = threadID + u3GroupID.x * NR_THREADS;
+
+    float3 pos , x , y ,z, nor,tangent;float2 uv; float colVal , rowVal,angle; int particleID;
+    GetInfo( pID , pos , z, x , y,nor,tangent,uv, colVal, rowVal,angle,particleID );
+
+    float r = _Radius* (.1 + rowVal* rowVal);
+    float3 fPos = pos + nor * r;
+    float2 debug = float2(float(particleID),pID);
+
+    SetInfo( pID , fPos , nor ,tangent , uv, debug ); 
+   
 
 }
 
@@ -146,192 +182,86 @@ void Transfer (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID) {
 
 #define NR_THREADS 128
 [numthreads(NR_THREADS,1,1)]
-void StraightTransfer (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID) {
+void Wonky(uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID) {
 
     int pID = threadID + u3GroupID.x * NR_THREADS;
 
-    int particleID = pID / ( _TubeLength * _TubeWidth);
+    float3 pos , x , y ,z, nor,tangent;float2 uv; float colVal , rowVal,angle; int particleID;
+    GetInfo( pID , pos , z, x , y,nor,tangent,uv, colVal, rowVal,angle,particleID );
 
-    int idInTube = pID % ( _TubeLength * _TubeWidth);
-    int row = idInTube / _TubeWidth;
-    int col = pID % _TubeWidth;
+    float r = _Radius* saturate(min( rowVal * 3, (1-(rowVal)* .8)));
+    float3 fPos = pos + nor * r;
+    float2 debug = float2(float(particleID),pID);
 
-    float rowVal = float(row) / float(_TubeLength);
-    float colVal =  (float(col)/float(_TubeWidth)) ;
+    SetInfo( pID , fPos , nor ,tangent , uv, debug ); 
+   
 
-    float3 upPos; float3 doPos;
+}
 
-    float3 pos = cubicFromValue( rowVal , particleID , upPos , doPos );
 
-    float3 d = normalize(upPos - pos);
-    float3 x = normalize(cross( d , float3(0,1,0)) );
-    float3 y = normalize(cross( x , d));
+#define NR_THREADS 128
+[numthreads(NR_THREADS,1,1)]
+void Straight(uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID) {
 
-    float angle = colVal * 2*3.14159;
+    int pID = threadID + u3GroupID.x * NR_THREADS;
+
+    float3 pos , x , y ,z, nor,tangent;float2 uv; float colVal , rowVal,angle; int particleID;
+    GetInfo( pID , pos , z, x , y,nor,tangent,uv, colVal, rowVal,angle,particleID );
 
     float r = _Radius;
+    float3 fPos = pos + nor * r;
+    float2 debug = float2(float(particleID),pID);
 
-    float3 outVec = (sin(angle) *x - cos(angle) * y);// * r;
-    float3 fPos = pos + outVec * r;
-
-    float2 fUV = float2( rowVal , colVal );
-    float3 fNor = normalize( outVec );
-    float3 fTan = normalize(cross(fNor,d));
-
-    int sID = safeID( pID , _VertBuffer_COUNT );
-    Vert v = _VertBuffer[sID];
-
+    SetInfo( pID , fPos , nor ,tangent , uv, debug ); 
    
-    v.nor = fNor;
-    v.uv = fUV;
-    v.tangent = fTan;
-    v.debug = float2(float(particleID),length(v.pos-fPos));
-    v.pos = fPos;
-    _VertBuffer[sID] = v;
 
 }
 
 
+#include "../Chunks/noise.cginc"
+
+
 #define NR_THREADS 128
 [numthreads(NR_THREADS,1,1)]
-void BellTransfer (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID) {
+void Wonky2(uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID) {
 
     int pID = threadID + u3GroupID.x * NR_THREADS;
 
-    int particleID = pID / ( _TubeLength * _TubeWidth);
+    float3 pos , x , y ,z, nor,tangent;float2 uv; float colVal , rowVal,angle; int particleID;
+    GetInfo( pID , pos , z, x , y,nor,tangent,uv, colVal, rowVal,angle,particleID );
 
-    int idInTube = pID % ( _TubeLength * _TubeWidth);
-    int row = idInTube / _TubeWidth;
-    int col = pID % _TubeWidth;
+    float iRow = (1-rowVal);
+    float r = _Radius* max(  iRow * iRow * .5 , .2+ rowVal* rowVal * 1.4) * (sin( rowVal * 20)+ 2) * .5;
+    float3 fPos = pos + nor * r;
+    float2 debug = float2(float(particleID),pID);
 
-    float rowVal = float(row) / float(_TubeLength);
-    float colVal =  (float(col)/float(_TubeWidth)) ;
-
-    float3 upPos; float3 doPos;
-
-    float3 pos = cubicFromValue( rowVal , particleID , upPos , doPos );
-
-    float3 d = normalize(upPos - pos);
-    float3 x = normalize(cross( d , float3(0,1,0)) );
-    float3 y = normalize(cross( x , d));
-
-    float angle = colVal * 2*3.14159;
-
-    float r = _Radius;
-
-    float3 outVec = (sin(angle) *x - cos(angle) * y);// * r;
-    float3 fPos = pos + outVec * r * (.1 + rowVal* rowVal);
-
-    float2 fUV = float2( rowVal , colVal );
-    float3 fNor = normalize( outVec );
-    float3 fTan = normalize(cross(fNor,d));
-
-    int sID = safeID( pID , _VertBuffer_COUNT );
-    Vert v = _VertBuffer[sID];
-
+    SetInfo( pID , fPos , nor ,tangent , uv, debug ); 
    
-    v.nor = fNor;
-    v.uv = fUV;
-    v.tangent = fTan;
-    v.debug = float2(float(particleID),length(v.pos-fPos));
-    v.pos = fPos;
-    _VertBuffer[sID] = v;
 
 }
 
-
-#define NR_THREADS 128
-[numthreads(NR_THREADS,1,1)]
-void BellLessTransfer (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID) {
-
-    int pID = threadID + u3GroupID.x * NR_THREADS;
-
-    int particleID = pID / ( _TubeLength * (_TubeWidth+1));
-
-    int idInTube = pID % ( _TubeLength * (_TubeWidth+1));
-    int row = idInTube / (_TubeWidth+1);
-    int col = pID % (_TubeWidth+1);
-
-    float rowVal =  (float(row) / float(_TubeLength)) ;
-    float colVal =  (float(col%_TubeWidth)/float(_TubeWidth)) ;
-
-    float3 upPos; float3 doPos;
-
-    float3 pos = cubicFromValue( rowVal , particleID , upPos , doPos );
-
-    float3 d = normalize(upPos - pos);
-    float3 x = normalize(cross( d , float3(1,0,0)) );
-    float3 y = normalize(cross( x , d));
-
-    float angle = colVal * 2*3.14159;
-
-    float r = _Radius * _SkeletonBuffer[safeID(particleID *_NumVertsPerHair , _SkeletonBuffer_COUNT)].debug.x;
-
-    float3 outVec = (sin(angle) *x - cos(angle) * y);// * r;
-    float3 fPos = pos + outVec * r * (.1 + rowVal* rowVal);
-
-    float2 fUV = float2( rowVal , colVal + col / _TubeWidth );
-    float3 fNor = normalize( outVec );
-    float3 fTan = normalize(cross(fNor,d));
-
-    int sID = safeID( pID , _VertBuffer_COUNT );
-    Vert v = _VertBuffer[sID];
-
-   
-    v.nor = fNor;
-    v.uv = fUV;
-    v.tangent = fTan;
-    v.debug = float2(float(particleID),length(v.pos-fPos));
-    v.pos = fPos;
-    _VertBuffer[sID] = v;
-
+float smin( float a, float b, float k )
+{
+    float h = max( k-abs(a-b), 0.0 )/k;
+    return min( a, b ) - h*h*k*(1.0/4.0);
 }
 
-
-
+float _Voice;
 #define NR_THREADS 128
 [numthreads(NR_THREADS,1,1)]
-void WonkyTransfer (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID) {
+void Tongue(uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID) {
 
     int pID = threadID + u3GroupID.x * NR_THREADS;
 
-    int particleID = pID / ( _TubeLength * (_TubeWidth+1));
+    float3 pos , x , y ,z, nor,tangent;float2 uv; float colVal , rowVal,angle; int particleID;
+    GetInfo( pID , pos , z, x , y,nor,tangent,uv, colVal, rowVal,angle,particleID );
 
-    int idInTube = pID % ( _TubeLength * (_TubeWidth+1));
-    int row = idInTube / (_TubeWidth+1);
-    int col = pID % (_TubeWidth+1);
+    float iRow = (1-rowVal);
+    float r = _Radius * smin(  pow(iRow + -.01, .3) , rowVal + .2 , .4 ) * (1 + _Voice)/2;// max(  iRow * iRow * .5 , .2+ rowVal* rowVal * 1.4) * (sin( rowVal * 20)+ 2) * .5;
+    float3 fPos = pos + nor * r * (1.3+sin( angle * 2 + 3.14 * .5));
+    float2 debug = float2(float(particleID),pID);
 
-    float rowVal =  (float(row) / float(_TubeLength)) * .95;
-    float colVal =  (float(col%_TubeWidth)/float(_TubeWidth)) ;
-
-    float3 upPos; float3 doPos;
-
-    float3 pos = cubicFromValue( rowVal , particleID , upPos , doPos );
-
-    float3 d = normalize(upPos - pos);
-    float3 x = normalize(cross( d , float3(1,0,0)) );
-    float3 y = normalize(cross( x , d));
-
-    float angle = colVal * 2*3.14159;
-
-    float r = _Radius;//* _SkeletonBuffer[safeID(particleID *_NumVertsPerHair , _SkeletonBuffer_COUNT)].debug.x;
-
-    float3 outVec = (sin(angle) *x - cos(angle) * y);// * r;
-    float3 fPos = pos + outVec * r * saturate(min( rowVal * 3, (1-(rowVal*rowVal)*1.3)));// * (.1 + rowVal* rowVal);
-
-    float2 fUV = float2( rowVal , colVal + col / _TubeWidth );
-    float3 fNor = normalize( outVec );
-    float3 fTan = normalize(cross(fNor,d));
-
-    int sID = safeID( pID , _VertBuffer_COUNT );
-    Vert v = _VertBuffer[sID];
-
+    SetInfo( pID , fPos , nor ,tangent , uv, debug ); 
    
-    v.nor = fNor;
-    v.uv = fUV;
-    v.tangent = fTan;
-    v.debug = float2(float(particleID),length(v.pos-fPos));
-    v.pos = fPos;
-    _VertBuffer[sID] = v;
 
 }

@@ -332,6 +332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   human: {fileID: 8771502322048074881}
+  voice: {fileID: 3999316174876259303}
   ltv: {fileID: 2076344249418562512}
   rtv: {fileID: 6981847349944272152}
 --- !u!1 &3999316174876259297

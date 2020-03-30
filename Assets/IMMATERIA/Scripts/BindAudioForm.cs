@@ -5,8 +5,10 @@ namespace IMMATERIA {
 public class BindAudioForm : Binder
 { 
     public AudioListenerTexture audio;
+    
 
     public override void Bind(){
+      if( audio == null ){ audio = GameObject.Find("God").GetComponent<AudioListenerTexture>(); }
       toBind.BindForm("_AudioBuffer" , audio );
     }
 

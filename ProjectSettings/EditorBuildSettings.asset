@@ -11,9 +11,27 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ropeConnections.unity
     guid: 0cd3d3529ff281147aeab9666d38fb49
+  - enabled: 0
+    path: Assets/Scenes/pomPoms.unity
+    guid: a90b3911ec3fe1d47aa0aa23f7ff3169
+  - enabled: 0
+    path: Assets/Scenes/blarp1.unity
+    guid: 1716a158e4530b04cb986d5ec1ee10a7
+  - enabled: 0
+    path: Assets/Scenes/mouthScene.unity
+    guid: c54b52d5512fd304e90f296804c98d0e
+  - enabled: 0
+    path: Assets/Scenes/mouthScene2.unity
+    guid: afbdf5de267adcb4d9368e85d67f7780
+  - enabled: 0
+    path: Assets/Scenes/blarp2.unity
+    guid: 851ed2380c5328647bc889fc8e04fff2
+  - enabled: 1
+    path: Assets/Scenes/hairAvi.unity
+    guid: e8218e300b54ae0488916d7a014b1825
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: c902e54f95e07304aa84a1eb9ede3895,
       type: 2}

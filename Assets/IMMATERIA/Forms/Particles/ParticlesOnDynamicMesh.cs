@@ -110,7 +110,7 @@ public class ParticlesOnDynamicMesh: Particles {
 
       nor = (nors[tri0] * p0 + nors[tri1] * p1 + nors[tri2] * p2).normalized;
       uv = uvs[tri0] * p0 + uvs[tri1] * p1 + uvs[tri2] * p2;
-      tan = (HELP.ToV3(tans[tri0]) * p0 + HELP.ToV3(tans[tri1]) * p1 + HELP.ToV3(tans[tri2]) * p2).normalized;
+      //tan = (HELP.ToV3(tans[tri0]) * p0 + HELP.ToV3(tans[tri1]) * p1 + HELP.ToV3(tans[tri2]) * p2).normalized;
 
 
    
@@ -127,9 +127,9 @@ public class ParticlesOnDynamicMesh: Particles {
       values[ index ++ ] = nor.y;
       values[ index ++ ] = nor.z;
 
-      values[ index ++ ] = tan.x;
-      values[ index ++ ] = tan.y;
-      values[ index ++ ] = tan.z;
+      values[ index ++ ] = 0;
+      values[ index ++ ] = 0;
+      values[ index ++ ] = 0;
 
       values[ index ++ ] = uv.x;
       values[ index ++ ] = uv.y;

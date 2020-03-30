@@ -285,7 +285,7 @@ void Constraint(uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
     float n = sin(1000*float(pID/_NumVertsPerHair)); 
 
     // If we are are the end of the hair, no need to do verlet
-    if( v1.uv.x <= 1-(2/ float(_NumVertsPerHair))){
+    if( v1.uv.x <= 1-(1/ float(_NumVertsPerHair))){
       Vert v2 = _VertBuffer[pUp];
 
       float3 dif = v1.pos - v2.pos;

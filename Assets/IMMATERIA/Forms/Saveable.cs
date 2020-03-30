@@ -16,11 +16,11 @@ public class Saveable {
 
     string fString = "entity"+ UnityEngine.Random.Range(0,10000000);
 
-    foreach( string s in names ){
-      if( fString == s){
-        fString = GetSafeName();
-      }
-    }
+    //foreach( string s in names ){
+    //  if( fString == s){
+    //    fString = GetSafeName();
+    //  }
+    //}
 
     names.Add( fString );
     return fString;
@@ -150,9 +150,7 @@ public class Saveable {
           if( data.Length != form.count * form.structSize ){
             form.DebugThis("YOUR INPUT DATA IS OFF");
             form.saveName = GetSafeName();
-            form.Embody();
-            form.loadedFromFile = false;
-            Saveable.Save(form);
+            form._Embody();
 
           }else{
             //form.DebugThis("loadedFromFileee");
@@ -164,17 +162,13 @@ public class Saveable {
         if( data == null ){
                 form.DebugThis("NULL DATA");
           form.saveName = GetSafeName();
-          form.Embody();
-          form.loadedFromFile = false;
-          Saveable.Save(form);
+          form._Embody();
         }else{
 
         if( data.Length != form.count * form.structSize ){
           form.DebugThis("YOUR INPUT DATA IS OFF");
           form.saveName = GetSafeName();
-          form.Embody();
-          form.loadedFromFile = false;
-          Saveable.Save(form);
+          form._Embody();
 
         }else{
           

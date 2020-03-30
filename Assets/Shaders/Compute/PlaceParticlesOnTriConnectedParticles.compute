@@ -5,12 +5,11 @@ struct Vert{
   float3 pos;
   float3 vel;
   float3 nor;
-  float3 og;
+  float3 tangent;
   float2 uv;
   float2 debug;
-  float4 resolver;
-  float3 connections[16];
 };
+
 
 
 

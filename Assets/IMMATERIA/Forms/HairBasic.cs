@@ -50,10 +50,12 @@ public int numFrames;
     collision.BindForm("_BaseBuffer", Base ); 
 
     constraint0.BindInt("_Pass" , 0 );
+    constraint0.BindFloat( "_HairLength"  , () => Hair.length );
     constraint0.BindPrimaryForm("_VertBuffer", Hair);
     constraint0.BindInt( "_NumVertsPerHair" , () => Hair.numVertsPerHair );
 
     constraint1.BindInt("_Pass" , 1 );
+    constraint1.BindFloat( "_HairLength"  , () => Hair.length );
     constraint1.BindPrimaryForm("_VertBuffer", Hair);
     constraint1.BindInt( "_NumVertsPerHair" ,  () => Hair.numVertsPerHair );
 

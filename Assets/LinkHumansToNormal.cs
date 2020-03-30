@@ -11,11 +11,11 @@ public class LinkHumansToNormal : Cycle
     public RealtimeAvatarManager manager;
     public HumanBuffer buffer;
     public Human fakeHuman;
+    public bool doFakeHuman;
+    public bool fullRebuild;
    
     public void Recreate(){
       print( "rebuilding");
-     data.god.Rebuild();
-     
      data.god.Rebuild();
     }
 
@@ -37,15 +37,27 @@ public class LinkHumansToNormal : Cycle
       if( avatarManager.avatars.Count == 1 ){
 
 
-        buffer.humans = new Human[ 2 ];
-        int index = 0;
-        foreach(KeyValuePair<int, RealtimeAvatar> entry in avatarManager.avatars){ 
-          buffer.humans[ index ] = entry.Value.GetComponent<Human>();
-          index ++;
+        if( doFakeHuman ){
+          buffer.humans = new Human[ 2 ];
+          int index = 0;
+          foreach(KeyValuePair<int, RealtimeAvatar> entry in avatarManager.avatars){ 
+            buffer.humans[ index ] = entry.Value.GetComponent<Human>();
+            index ++;
+          }
+          buffer.humans[1] = fakeHuman;
+          fakeHuman.transform.GetComponent<HumanToCopy>().copy = true;
+          fakeHuman.transform.GetComponent<HumanToCopy>().toCopy = buffer.humans[0];
+        }else{
+
+            print("hiiii");
+           fakeHuman.transform.GetComponent<HumanToCopy>().copy = false;
+            buffer.humans = new Human[ avatarManager.avatars.Count ];
+            int index = 0;
+            foreach(KeyValuePair<int, RealtimeAvatar> entry in avatarManager.avatars){ 
+              buffer.humans[ index ] = entry.Value.GetComponent<Human>();
+              index ++;
+           }
         }
-        buffer.humans[1] = fakeHuman;
-        fakeHuman.transform.GetComponent<HumanToCopy>().copy = true;
-        fakeHuman.transform.GetComponent<HumanToCopy>().toCopy = buffer.humans[0];
 
 
       }else{
@@ -60,7 +72,7 @@ public class LinkHumansToNormal : Cycle
 
     }
 
-      Recreate();
+    if( fullRebuild ) Recreate();
     }
 
 
@@ -74,7 +86,7 @@ public class LinkHumansToNormal : Cycle
         index ++;
       }
 
-      Recreate();
+      if( fullRebuild ) Recreate();
     }
 
 }

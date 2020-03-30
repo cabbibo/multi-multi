@@ -9,9 +9,6 @@
 
 float4x4 _Transform; 
 float4x4 _Terrarium; 
-float4x4 _FullWTL; 
-float4x4 _FullLTW; 
-float _FullScale; 
 
 float _DT;
 float _Time;
@@ -56,17 +53,6 @@ struct Base{
   float3 debug;
 };
 
-/*struct Base{
-  float3 pos;
-  float3 vel;
-  float3 nor;
-  float3 tang;
-  float2 uv;
-  float used;
-  float3 triIDs;
-  float3 triWeights;
-  float3 debug;
-};*/
 
 
 struct Bone{
@@ -90,7 +76,6 @@ uint _BaseBuffer_COUNT;
 
 #include "../Chunks/terrainCompute.cginc"
 
-#include "../Chunks/GetCamRayForce.cginc"
 
 
 float sdBox( float3 p, float3 b )
@@ -126,7 +111,7 @@ float3 springForce( float3 p1 , float3 p2 , float sl ){
 }
 
 
-#include "../Chunks/humanForces.cginc"
+//#include "../Chunks/humanForces.cginc"
 
 #define NR_THREADS 64
 
@@ -195,7 +180,7 @@ void Collision (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
     float3 force = base.nor * (1-vert.uv.x * vert.uv.x) * .4;//float3( 0 , base.nor , 0.0 );
 
 
-    force += curlNoise( vert.pos * 1 + float3(0,_Time * .1,0) ) * .05 ;// * _NoiseForce;
+    force += curlNoise( vert.pos * _CurlSize + float3(0,_Time * _CurlSpeed,0) ) * _CurlStrength;
 
    
 
@@ -274,6 +259,7 @@ void Collision (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
     }
 
 
+    vert.debug.x = _HairLength;
     //vert.pos = base.pos - base.nor * 1.2 * vert.uv.x;
 
 
