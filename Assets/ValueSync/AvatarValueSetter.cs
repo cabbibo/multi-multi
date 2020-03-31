@@ -13,8 +13,6 @@ public class AvatarValueSetter : RealtimeComponent {
     public RealtimeAvatarVoice voice;
 
 
-    public TextMesh ltv;
-    public TextMesh rtv;
 
      private AvatarModel model {
         set {
@@ -79,10 +77,12 @@ private List<InputDevice> devicesWithTrigger;
 
       }
 
+      human.oLeftTrigger = human.LeftTrigger;
+      human.oRightTrigger = human.RightTrigger;
+      human.oVoice = human.Voice;
+      human.oDebugVal = human.DebugVal;
 
 
-      ltv.text = "LT : " + _model.leftTrigger;
-      rtv.text = "RT : " + _model.rightTrigger;
 
       human.LeftTrigger   = _model.leftTrigger;
       human.RightTrigger  = _model.rightTrigger;

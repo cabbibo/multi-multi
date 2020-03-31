@@ -29,9 +29,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/blarp2.unity
     guid: 851ed2380c5328647bc889fc8e04fff2
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/hairAvi.unity
     guid: e8218e300b54ae0488916d7a014b1825
+  - enabled: 1
+    path: Assets/Scenes/humanBasic.unity
+    guid: 72810a25c7eb82e4690a48f882a99191
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: c902e54f95e07304aa84a1eb9ede3895,
       type: 2}

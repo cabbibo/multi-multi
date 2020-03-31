@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - God
+  - Moveable
+  - Ground
+  - Blarp
   layers:
   - Default
   - TransparentFX

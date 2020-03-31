@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Normal.Realtime;
 
 namespace IMMATERIA {
 public class Human : MonoBehaviour
 {
 
+  public RealtimeView view;
   public Transform LeftHand;
   public Transform RightHand;
   public Transform Head;
@@ -15,5 +17,23 @@ public class Human : MonoBehaviour
   public float Voice;
   public float DebugVal;
 
-}
-}
+
+  public float oLeftTrigger;
+  public float oRightTrigger;
+  public float oDebugVal;
+  public float oVoice;
+
+
+  public MeshRenderer LeftHandRenderer;
+  public MeshRenderer RightHandRenderer;
+  public MeshRenderer HeadRenderer;
+
+  public Collider LeftHandCollider;
+  public Collider RightHandCollider;
+
+  public Collider HeadCollider;
+
+
+
+
+}}

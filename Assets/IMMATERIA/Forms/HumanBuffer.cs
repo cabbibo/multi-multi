@@ -29,6 +29,7 @@ float[] tmp;
 
 public override void Create(){
   count = humans.Length;
+  count = Mathf.Max( count , 1 );
   values = new float[count * (16 * 3 + 4)];
 }
 

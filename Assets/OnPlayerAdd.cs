@@ -43,7 +43,7 @@ public class OnPlayerAdd : MonoBehaviour
         float x = Mathf.Sin( angle );
         float y = -Mathf.Cos( angle );
 
-         localTransform.position = new Vector3( x * Radius , 0 , y * 1);
+         localTransform.position = new Vector3( x * Radius , 0 , y * Radius);
 
          localTransform.LookAt( Vector3.zero );
         }

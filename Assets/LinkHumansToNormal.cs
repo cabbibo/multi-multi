@@ -15,7 +15,6 @@ public class LinkHumansToNormal : Cycle
     public bool fullRebuild;
    
     public void Recreate(){
-      print( "rebuilding");
      data.god.Rebuild();
     }
 
@@ -57,6 +56,11 @@ public class LinkHumansToNormal : Cycle
               buffer.humans[ index ] = entry.Value.GetComponent<Human>();
               index ++;
            }
+        }
+
+        if( avatarManager.avatars.Count == 0 ){ 
+          buffer.humans = new Human[ 1 ];
+          buffer.humans[0] = fakeHuman;
         }
 
 
