@@ -5,7 +5,7 @@ using UnityEngine;
 public class SetScreenLineRenderer : MonoBehaviour
 {
 
-
+    public DesktopAvatarValueSetter avatar;
     public GameObject collider;
 
     public LineRenderer lineRenderer;
@@ -52,8 +52,11 @@ public class SetScreenLineRenderer : MonoBehaviour
 
         cam.transform.position = transform.position;
         cam.transform.rotation = transform.rotation;
-    
-        _ratio = (float)Screen.width / (float)Screen.height;
+
+
+        if( avatar.screen.x > 0 && avatar.screen.y > 0 ){
+        _ratio = (float)avatar.screen.x / (float)avatar.screen.y;
+
        bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3( borderLeft ,_ratio *borderBottom,distance));  
        bottomRight = Camera.main.ViewportToWorldPoint(new Vector3(1- borderRight,_ratio *borderBottom ,distance));
        topLeft = Camera.main.ViewportToWorldPoint(new Vector3(borderLeft,1-_ratio * borderTop,distance));
@@ -70,9 +73,15 @@ public class SetScreenLineRenderer : MonoBehaviour
         collider.transform.rotation =  Camera.main.transform.rotation;
         collider.transform.position = center;
         collider.transform.localScale = new Vector3( (bottomLeft - bottomRight).magnitude , (bottomLeft - topLeft).magnitude , .001f);
-  
+        float fVal = (1 + avatar.voice) * .1f;
+            lineRenderer.SetWidth(  fVal , fVal );
+        }else{
+            
+            lineRenderer.SetWidth( 0,0 );
+        }
         cam.transform.position = tmpP;
         cam.transform.rotation = tmpR;
+
 
     }
 

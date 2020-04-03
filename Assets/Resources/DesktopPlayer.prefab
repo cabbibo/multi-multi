@@ -51,7 +51,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 4697b5ba68a768949a0fc4a17c1d3db5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -144,14 +144,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5d2a21f17c6aad4ca602a4f805ad7a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  avatar: {fileID: 4837830245623520711}
   collider: {fileID: 3859478719711281436}
   lineRenderer: {fileID: 3859478719242671932}
   distance: 2
   border: 0
-  borderLeft: 0.02
-  borderRight: 0.02
-  borderTop: 0.02
-  borderBottom: 0.02
+  borderLeft: 0.04
+  borderRight: 0.04
+  borderTop: 0.04
+  borderBottom: 0.04
   bottomLeft: {x: -9.701956, y: 3.4682536, z: -15.648307}
   bottomRight: {x: -6.4302855, y: 3.4682612, z: -17.252203}
   topLeft: {x: -9.471869, y: 5.5588584, z: -15.179026}
@@ -174,7 +175,6 @@ GameObject:
   - component: {fileID: 3859478719711281432}
   - component: {fileID: 3859478719711281433}
   - component: {fileID: 3859478719711281434}
-  - component: {fileID: 3859478719711281431}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -211,7 +211,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3859478719711281436}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -252,28 +252,10 @@ BoxCollider:
   m_GameObject: {fileID: 3859478719711281436}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3859478719711281431
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3859478719711281436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d18c6c1986b1a4e4581064b36359f51e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controls: {fileID: 0}
-  down: 0
-  oScrollPos: 0
-  scrollPos: 0
-  scrollDelta: 0
-  mine: 0
 --- !u!1 &7787120968779476939
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,6 +430,9 @@ GameObject:
   - component: {fileID: 7890404544344986399}
   - component: {fileID: 7891002992439306799}
   - component: {fileID: 7787456660747228406}
+  - component: {fileID: 4837830245623520711}
+  - component: {fileID: 8947779471373214961}
+  - component: {fileID: 1355039485089670171}
   m_Layer: 0
   m_Name: DesktopPlayer
   m_TagString: Untagged
@@ -496,6 +481,9 @@ MonoBehaviour:
     componentIDHasBeenUsed: 1
   - componentID: 2
     component: {fileID: 7891002992439306799}
+    componentIDHasBeenUsed: 1
+  - componentID: 3
+    component: {fileID: 4837830245623520711}
     componentIDHasBeenUsed: 1
   _parentView: {fileID: 0}
   _childViews:
@@ -557,7 +545,66 @@ MonoBehaviour:
   baseObject: {fileID: 0}
   controls: {fileID: 0}
   view: {fileID: 7894705731280956619}
-  controller: {fileID: 3859478719711281431}
+  controller: {fileID: 1355039485089670171}
+--- !u!114 &4837830245623520711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7787456660747228407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7441a87ac98b6df458cce1c2ceb12099, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseDown: 0
+  mousePosition: {x: 0, y: 0}
+  voice: 0
+  debug: 0
+  screen: {x: 0, y: 0}
+  avatarVoice: {fileID: 7890650794618670891}
+--- !u!114 &8947779471373214961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7787456660747228407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b729531493218d84bbdfeab98593b18d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  view: {fileID: 7894705731280956619}
+  avatar: {fileID: 4837830245623520711}
+  grabbing: 0
+  insideTransform: {fileID: 0}
+  insideRealtime: {fileID: 0}
+  insideView: {fileID: 0}
+  insideRigidbody: {fileID: 0}
+  tagToGrab: Moveable
+  makeKinematic: 0
+  inside: 0
+  grabDist: 0
+--- !u!114 &1355039485089670171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7787456660747228407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d18c6c1986b1a4e4581064b36359f51e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controls: {fileID: 0}
+  down: 0
+  oScrollPos: 0
+  scrollPos: 0
+  scrollDelta: 0
+  mine: 0
 --- !u!1 &7787620622227316987
 GameObject:
   m_ObjectHideFlags: 0

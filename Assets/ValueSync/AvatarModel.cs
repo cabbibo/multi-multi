@@ -5,6 +5,7 @@ using Normal.Realtime.Serialization;
 
 [RealtimeModel]
 public partial class AvatarModel {
+    
     [RealtimeProperty(1, false, false)]
     private float _leftTrigger;
 

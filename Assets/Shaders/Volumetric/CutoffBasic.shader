@@ -14,6 +14,7 @@ Shader "Custom/CutoffBasic" {
     // Total Depth of the trace. Deeper means more parallax
     // but also less precision per step
     _TotalDepth( "Total Depth", Float ) = 0.16
+    _PatternSize( "_PatternSize", Float ) = 30
 
 
   }
@@ -31,6 +32,7 @@ Shader "Custom/CutoffBasic" {
       #include "UnityCG.cginc"
 
 
+  float _PatternSize;
       uniform int _NumberSteps;
       uniform float _TotalDepth;
 
@@ -54,7 +56,7 @@ Shader "Custom/CutoffBasic" {
 
       float getFogVal( float3 pos ){
 
-      	return abs( sin( pos.x * 30) + sin(pos.y * 30 ) + sin( pos.z * 30 ));
+      	return abs( sin( pos.x * _PatternSize) + sin(pos.y * _PatternSize ) + sin( pos.z * _PatternSize ));
       }
       
       VertexOut vert(VertexIn v) {

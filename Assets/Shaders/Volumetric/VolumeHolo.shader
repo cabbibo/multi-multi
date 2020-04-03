@@ -67,7 +67,7 @@ Shader "Custom/VolumeHolo" {
 
       float getFogVal( float3 pos ){
 
-      	return abs( sin( pos.x * _PatternSize ) + sin(pos.y * _PatternSize ) + sin( pos.z * _PatternSize ));
+      	return abs( sin( pos.x * _PatternSize )  + sin( pos.z * _PatternSize ));
       }
       
       VertexOut vert(VertexIn v) {
@@ -104,8 +104,9 @@ Shader "Custom/VolumeHolo" {
 				// Ray origin 
         float3 ro 			= i.ro;
 
+        float3 camPos = mul( unity_WorldToObject , float4( _WorldSpaceCameraPos , 1. )).xyz;
         // Ray direction
-        float3 rd 			= i.rd;       
+        float3 rd 			=normalize(ro - camPos );       
 
         // Our color starts off at zero,   
         float3 col = float3( 0.0 , 0.0 , 0.0 );
@@ -124,15 +125,17 @@ Shader "Custom/VolumeHolo" {
 	
 					// We get our value of how much of the volumetric material we have gone through
 					// using the position
-					float val = getFogVal( p );	
+					float val = getFogVal( p ) * (float(i)/ _NumberSteps);	
 
 
-          col += hsv( val * _HueSize, 1 , 1) * val * val * ( 1 - float(i)/_NumberSteps);
+          col += hsv( val * _HueSize + _Time.y * .3 + p.x, 1 , 1 ) * val ;// ( 1 - float(i)/_NumberSteps);
 
 
         }
 
-        col /= 2* _NumberSteps;
+        col /=  _NumberSteps;
+
+        col *= saturate((ro.y -.7)/.3);
 
 
 

@@ -8,12 +8,12 @@ public class ListRealtimeOwners : MonoBehaviour
 {
 
     public RealtimeView view;
-    public RealtimeTransform transform;
+    public RealtimeTransform realtimeTransform;
     public TextMesh text;
 
     void Start(){
         view = GetComponent<RealtimeView>();
-        transform = GetComponent<RealtimeTransform>();
+        realtimeTransform = GetComponent<RealtimeTransform>();
         
     }
    
@@ -21,7 +21,7 @@ public class ListRealtimeOwners : MonoBehaviour
     void Update()
     {
 
-        string fullString = "View:" + view.ownerID + " || Tra: " + transform.ownerID;
+        string fullString = "View:" + view.ownerID + " || Tra: " + realtimeTransform.ownerID;
         text.text = fullString;
     }
 }

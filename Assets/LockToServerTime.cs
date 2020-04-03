@@ -18,11 +18,7 @@ public class LockToServerTime : MonoBehaviour
 
 
     public void Connect( Realtime rt ){
-        print("CONNETIONS");
-        print( source.time );
-        print( realtime.room.time%source.clip.length);
         double v = realtime.room.time%source.clip.length;
-        print( (float)v);
         source.time = (float)v;
         source.Play();
     }

@@ -17,14 +17,14 @@ public class Grabber : MonoBehaviour
     public RealtimeView insideView;
     public Rigidbody insideRigidbody;
 
-    public string tag = "Moveable";
+    public string tagToGrab = "Moveable";
     public bool makeKinematic;
     public bool inside;
 
 
 
     public void OnTriggerEnter(Collider c){
-        if(c.tag == tag){
+        if(c.tag == tagToGrab){
             if( insideTransform == null && grabbing == false ){
                 insideTransform = c.transform;
                 insideRealtime = c.GetComponent<RealtimeTransform>();

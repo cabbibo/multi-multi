@@ -12,10 +12,13 @@ namespace Normal.Realtime.Examples {
 
         private Vector3 _startPosition;
 
+        private float startScale;
+
         void Awake() {
             // Get a reference to the RealtimeAvatarVoice component
             _voice = GetComponent<RealtimeAvatarVoice>();
             _startPosition = mouth.localPosition;
+            startScale = mouth.localScale.x;
         }
 
         void Update() {
@@ -27,8 +30,8 @@ namespace Normal.Realtime.Examples {
 
             // Apply the mouth size to the scale of the mouth geometry
             Vector3 localScale = mouth.localScale;
-            localScale.y = _mouthSize;
-            mouth.localPosition = _startPosition - _mouthSize * Vector3.up * moveAmount;
+            localScale = (_mouthSize * moveAmount + startScale) * Vector3.one;
+           // mouth.localPosition = _startPosition - _mouthSize * Vector3.up * moveAmount;
             mouth.localScale = localScale;
         }
     }

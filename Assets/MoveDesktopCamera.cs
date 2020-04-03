@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,8 +27,15 @@ public class MoveDesktopCamera : MonoBehaviour
        
 
        if( mine ){
+
+           if( Input.GetMouseButtonDown(1)){
+               OnMouseDown();
+           }
+
+            if( Input.GetMouseButtonUp(1)){
+               OnMouseUp();
+           }
         if( down ){
-            print("hiiii");
             oPos = pos;
             pos =  Input.mousePosition;
             delta = pos - oPos;
@@ -43,14 +50,12 @@ public class MoveDesktopCamera : MonoBehaviour
    }
 
    public void OnMouseDown(){
-       print("hmmmm");
        down = true;
        oPos = Input.mousePosition;
        pos = Input.mousePosition;
    }
 
    public void OnMouseUp(){
-       print("hmmmm1");
        down = false;
    }
 }

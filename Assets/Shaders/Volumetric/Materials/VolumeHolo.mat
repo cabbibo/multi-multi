@@ -61,15 +61,15 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _Glossiness: 0.5
-    - _HueSize: 0.4
+    - _HueSize: 0.68
     - _Metallic: 0
     - _Mode: 0
-    - _NumberSteps: 30
+    - _NumberSteps: 20
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _PatternSize: 40
+    - _PatternSize: 200
     - _SrcBlend: 1
-    - _TotalDepth: 0.2
+    - _TotalDepth: 0.04
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
