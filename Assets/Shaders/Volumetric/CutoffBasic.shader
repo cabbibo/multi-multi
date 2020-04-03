@@ -54,7 +54,7 @@ Shader "Custom/CutoffBasic" {
 
       float getFogVal( float3 pos ){
 
-      	return abs( sin( pos.x * 40) + sin(pos.y * 40 ) + sin( pos.z * 40 ));
+      	return abs( sin( pos.x * 30) + sin(pos.y * 30 ) + sin( pos.z * 30 ));
       }
       
       VertexOut vert(VertexIn v) {

@@ -5,6 +5,7 @@ using UnityEngine;
 public class LookAtCamera : MonoBehaviour
 {
 
+    public Vector3 offset;
     public Transform cam;
     public Transform parent;
     // Start is called before the first frame update
@@ -16,7 +17,7 @@ public class LookAtCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = parent.position + Vector3.up * .23f;
+        transform.position = parent.position + cam.right* offset.x + cam.up* offset.y + cam.forward* offset.z;
         transform.LookAt( cam.position );
         transform.Rotate( Vector3.up * 180 );
     }

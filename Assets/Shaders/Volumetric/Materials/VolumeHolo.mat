@@ -64,10 +64,10 @@ Material:
     - _HueSize: 0.4
     - _Metallic: 0
     - _Mode: 0
-    - _NumberSteps: 28
+    - _NumberSteps: 30
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _PatternSize: 20
+    - _PatternSize: 40
     - _SrcBlend: 1
     - _TotalDepth: 0.2
     - _UVSec: 0

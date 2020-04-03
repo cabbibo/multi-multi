@@ -5,13 +5,17 @@ using UnityEngine;
 namespace Normal.Realtime.Examples {
     public class VoiceMouthMove : MonoBehaviour {
         public Transform mouth;
+        public float moveAmount;
 
         private RealtimeAvatarVoice _voice;
         private float _mouthSize;
 
+        private Vector3 _startPosition;
+
         void Awake() {
             // Get a reference to the RealtimeAvatarVoice component
             _voice = GetComponent<RealtimeAvatarVoice>();
+            _startPosition = mouth.localPosition;
         }
 
         void Update() {
@@ -24,6 +28,7 @@ namespace Normal.Realtime.Examples {
             // Apply the mouth size to the scale of the mouth geometry
             Vector3 localScale = mouth.localScale;
             localScale.y = _mouthSize;
+            mouth.localPosition = _startPosition - _mouthSize * Vector3.up * moveAmount;
             mouth.localScale = localScale;
         }
     }

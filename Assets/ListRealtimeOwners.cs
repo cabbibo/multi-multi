@@ -14,6 +14,7 @@ public class ListRealtimeOwners : MonoBehaviour
     void Start(){
         view = GetComponent<RealtimeView>();
         transform = GetComponent<RealtimeTransform>();
+        
     }
    
     // Update is called once per frame

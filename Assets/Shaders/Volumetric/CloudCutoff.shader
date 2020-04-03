@@ -28,7 +28,7 @@ Shader "Custom/CloudCutoff" {
       
       //Blend SrcAlpha OneMinusSrcAlpha // Alpha blending
 
-      Cull Front
+     // Cull Front
 
       CGPROGRAM
 
@@ -172,7 +172,7 @@ Shader "Custom/CloudCutoff" {
         //float3 col = float3( 0, 0,0);
 
 
-        float hit = 0;
+        float hit = .8;
 
         for( int i = 0; i < _NumberSteps; i++ ){
 
@@ -193,6 +193,7 @@ Shader "Custom/CloudCutoff" {
 
         }
 
+      if( hit == .8 ){discard;}
         col = hsv( hit * _HueSize + _BaseHue, 1,1);
 
         float3 bw = float3( hit,hit,hit);
