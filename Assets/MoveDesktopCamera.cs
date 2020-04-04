@@ -19,14 +19,8 @@ public class MoveDesktopCamera : MonoBehaviour
     public float scrollPos;
     public float scrollDelta;
 
-    public bool mine;
-
    public void Update(){
 
-
-       
-
-       if( mine ){
 
            if( Input.GetMouseButtonDown(1)){
                OnMouseDown();
@@ -46,7 +40,6 @@ public class MoveDesktopCamera : MonoBehaviour
 
         
         controls.radiusVel += Input.GetAxis("Mouse ScrollWheel");
-       }
    }
 
    public void OnMouseDown(){

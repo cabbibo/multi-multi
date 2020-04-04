@@ -11,7 +11,7 @@ public class LockToServerTime : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        realtime = GameObject.FindGameObjectWithTag("REALTIME").GetComponent<Realtime>();
         realtime.didConnectToRoom += Connect;
         
     }

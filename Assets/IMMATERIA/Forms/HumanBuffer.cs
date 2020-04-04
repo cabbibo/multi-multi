@@ -20,9 +20,13 @@ head
 leftTriggerDown
 rightTriggerDown
 voice
+id
+humanType
+leftHandActive
+rightHandActive
 debug
 
-16 * 3 + 4
+16 * 3 + 4 + 4
 
 */
 float[] tmp;
@@ -30,11 +34,11 @@ float[] tmp;
 public override void Create(){
   count = humans.Length;
   count = Mathf.Max( count , 1 );
-  values = new float[count * (16 * 3 + 4)];
+  values = new float[count * (16 * 3 + 4 + 4)];
 }
 
 public override void SetStructSize(){
-  structSize = 16 * 3 + 4;
+  structSize = 16 * 3 + 4 + 4;
 }
 
 

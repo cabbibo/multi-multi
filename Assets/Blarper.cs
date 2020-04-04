@@ -6,7 +6,7 @@ using Normal.Realtime;
 
 
 
-public class Blarper : Grabber
+public class Blarper : VrGrabber
 {
 
     public float force;
@@ -21,5 +21,13 @@ public class Blarper : Grabber
     public override void OnRelease(){
         lr.SetPosition( 0 , Vector3.zero );
         lr.SetPosition( 1 , Vector3.zero );
+        
+        if( makeKinematic ) insideRigidbody.velocity = -(insideTransform.position-transform.position) / Time.deltaTime;
+
+        if( inside == false ){
+            insideTransform = null;
+            insideRealtime = null;
+            insideRigidbody = null;
+        }
     }
 }

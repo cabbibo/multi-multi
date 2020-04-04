@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Normal.Realtime;
 
 
 /*
@@ -22,11 +23,15 @@ public class Data : Cycle
 
   public Transform camera;
   public float SERVER_TIME;
+
+  public Realtime realtime;
   public HumanBuffer humans;
   public God god;
 
   public override void Create(){
     SafeInsert(humans);
+    camera = Camera.main.transform;
+    realtime = GameObject.FindGameObjectWithTag("REALTIME").GetComponent<Realtime>();
   }
 
 

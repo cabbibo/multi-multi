@@ -15,6 +15,15 @@ public class DesktopAvatarValueSetter : RealtimeComponent {
 
     public Vector2 screen;
 
+
+    public Camera camera;
+
+
+    public float screenDistance;
+
+    
+    public DesktopAvatarSelfValues selfSetter;
+
     public RealtimeAvatarVoice avatarVoice;
     private DesktopAvatarModel _model;
 
@@ -28,17 +37,12 @@ public class DesktopAvatarValueSetter : RealtimeComponent {
     
 
 
-    private void Awake()
+    private void Start()
     {
-
-    }
-
-    void OnEnable()
-    {
-    }
-
-    private void OnDisable()
-    {
+        camera = gameObject.AddComponent<Camera>();
+        camera.enabled = false;
+        selfSetter = GameObject.FindGameObjectWithTag("DesktopBase").GetComponent<DesktopAvatarSelfValues>();
+        
     }
 
     public void Update(){
@@ -46,7 +50,7 @@ public class DesktopAvatarValueSetter : RealtimeComponent {
 
           // Update the model to have the latest input values
           GetInfo();
-          _model.debug = realtimeView.ownerID;
+          
       }else{
         //print("non local owned");
 
@@ -56,22 +60,28 @@ public class DesktopAvatarValueSetter : RealtimeComponent {
         mousePosition = _model.mousePosition;
         voice = _model.voice;
         mouseDown = _model.mouseDown;
+        screenDistance = _model.screenDistance;
+
+        camera.fieldOfView = _model.fieldOfView;
+        camera.aspect = _model.screen.x / _model.screen.y;
 
     }
 
     public void GetInfo(){
-
-        _model.screen = new Vector2( Screen.width , Screen.height);
-        _model.mousePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-
-    
-        _model.mouseDown = Input.GetMouseButton(0) ? 1 : 0;
         
+        SetToLocal();
         _model.debug = realtimeView.ownerID;
-
-          
         if( avatarVoice ){ _model.voice = Mathf.Lerp( _model.voice , avatarVoice.voiceVolume , .3f);  }
 
+    }
+
+
+    public void SetToLocal(){
+        _model.screen = selfSetter.screen;
+        _model.mousePosition = selfSetter.mousePosition;
+        _model.mouseDown = selfSetter.mouseDown;
+        _model.fieldOfView = selfSetter.fieldOfView;
+        _model.screenDistance = selfSetter.screenDistance;
     }
 
 }

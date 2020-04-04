@@ -34,6 +34,13 @@ public class Human : MonoBehaviour
   public Collider HeadCollider;
 
 
+  public int type;
+  public int id;
+
+  public int RightHandActive;
+  public int LeftHandActive;
+
+
 
 
 }}

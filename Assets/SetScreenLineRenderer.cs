@@ -9,9 +9,6 @@ public class SetScreenLineRenderer : MonoBehaviour
     public GameObject collider;
 
     public LineRenderer lineRenderer;
-    private float _ratio;
-
-   public float distance;
   public float border;
 
   public float borderLeft;
@@ -32,56 +29,42 @@ public class SetScreenLineRenderer : MonoBehaviour
   public Vector3 up;
   public Vector3 right;
 
+  public float voiceSizeMin;
+  public float voiceSizeMax;
+  
 
     // Start is called before the first frame update
     void Start()
-    {
-        lineRenderer = GetComponent<LineRenderer>();
-
+    { 
         SetFrame();
-      
     }
 
 
     void SetFrame(){
 
-        Camera cam = Camera.main;
 
-        Vector3  tmpP = cam.transform.position;
-        Quaternion tmpR = cam.transform.rotation;
+      
 
-        cam.transform.position = transform.position;
-        cam.transform.rotation = transform.rotation;
+       bottomLeft = avatar.camera.ViewportToWorldPoint(new Vector3( borderLeft ,avatar.camera.aspect *borderBottom,avatar.screenDistance));  
+       bottomRight = avatar.camera.ViewportToWorldPoint(new Vector3(1- borderRight,avatar.camera.aspect *borderBottom ,avatar.screenDistance));
+       topLeft = avatar.camera.ViewportToWorldPoint(new Vector3(borderLeft,1-avatar.camera.aspect * borderTop,avatar.screenDistance));
+       topRight = avatar.camera.ViewportToWorldPoint(new Vector3(1-borderRight,1-avatar.camera.aspect * borderTop,avatar.screenDistance));
 
-
-        if( avatar.screen.x > 0 && avatar.screen.y > 0 ){
-        _ratio = (float)avatar.screen.x / (float)avatar.screen.y;
-
-       bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3( borderLeft ,_ratio *borderBottom,distance));  
-       bottomRight = Camera.main.ViewportToWorldPoint(new Vector3(1- borderRight,_ratio *borderBottom ,distance));
-       topLeft = Camera.main.ViewportToWorldPoint(new Vector3(borderLeft,1-_ratio * borderTop,distance));
-       topRight = Camera.main.ViewportToWorldPoint(new Vector3(1-borderRight,1-_ratio * borderTop,distance));
-
-        normal = Camera.main.transform.forward;
-        center = Camera.main.ViewportToWorldPoint(new Vector3( .5f , .5f , distance )); 
+        normal = avatar.camera.transform.forward;
+        center = avatar.camera.ViewportToWorldPoint(new Vector3( .5f , .5f , avatar.screenDistance )); 
 
         lineRenderer.SetPosition(0 , bottomLeft);
         lineRenderer.SetPosition(1 , bottomRight);
         lineRenderer.SetPosition(2 , topRight);
         lineRenderer.SetPosition(3 , topLeft);
 
-        collider.transform.rotation =  Camera.main.transform.rotation;
+        collider.transform.rotation =  avatar.transform.rotation;
         collider.transform.position = center;
         collider.transform.localScale = new Vector3( (bottomLeft - bottomRight).magnitude , (bottomLeft - topLeft).magnitude , .001f);
-        float fVal = (1 + avatar.voice) * .1f;
-            lineRenderer.SetWidth(  fVal , fVal );
-        }else{
-            
-            lineRenderer.SetWidth( 0,0 );
-        }
-        cam.transform.position = tmpP;
-        cam.transform.rotation = tmpR;
-
+        float fVal = Mathf.Lerp( voiceSizeMin , voiceSizeMax , avatar.voice );
+        
+        lineRenderer.SetWidth(  fVal , fVal );
+   
 
     }
 

@@ -8,6 +8,8 @@ TagManager:
   - Moveable
   - Ground
   - Blarp
+  - REALTIME
+  - DesktopBase
   layers:
   - Default
   - TransparentFX

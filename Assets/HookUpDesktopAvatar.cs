@@ -17,7 +17,6 @@ public class HookUpDesktopAvatar : MonoBehaviour
             baseObject = GameObject.Find("HumanBase");
             controls = baseObject.GetComponent<DesktopControls>();
             controller.controls = controls;
-            controller.mine = true;
             controls.canDo = true;
         }
         
