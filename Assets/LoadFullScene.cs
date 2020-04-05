@@ -9,7 +9,7 @@ public class LoadFullScene : MonoBehaviour
     public string sceneName;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
          #if !UNITY_EDITOR
         SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);

@@ -35,12 +35,15 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/humanBasic.unity
     guid: 72810a25c7eb82e4690a48f882a99191
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/desktopAttempt.unity
     guid: c464edb3e2a781b4db6ef77c13db7a59
-  - enabled: 1
-    path: Assets/scene2Test.unity
+  - enabled: 0
+    path: Assets/Scenes/draggieConnector.unity
     guid: 9dc7e5980ac54b3498c226fcd60c2b2b
+  - enabled: 1
+    path: Assets/Scenes/textTest.unity
+    guid: 5ac531d4023046240b9fd3042fb92125
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: c902e54f95e07304aa84a1eb9ede3895,
       type: 2}
