@@ -24,6 +24,8 @@ public class BigStringBoy : RealtimeComponent
 
 
     public void SetString(string words){
+        print("NEW STERING");
+        print( "Words");
         SmallStringModel smallString = new SmallStringModel();
         smallString.words = words;
         _model.smallStrings.Add(smallString);

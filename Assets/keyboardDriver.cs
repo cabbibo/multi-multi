@@ -15,38 +15,47 @@ public class keyboardDriver : MonoBehaviour
 
     public GameObject bigStringGO;
 
+    public bool connected;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        realtime.didConnectToRoom += StartNewMessage;
+        realtime.didConnectToRoom += Connect;
         
     }
 
+    public void Connect(Realtime realtime){
+        connected = true;
+    }
+    public void StartNewMessage(){
 
-    public void StartNewMessage(Realtime realtime){
-
+        if( connected ){
         print("connecsst");
         
         if( makingString == true ){ print( "TO MANNY MESSAGIS"); }else{
             bigStringGO = Realtime.Instantiate("BigStringBoy");
             bigStringBoy = bigStringGO.GetComponent<BigStringBoy>();
-            bigStringTransform = bigStringGO.GetComponent<RealtimeTransform>();
+            bigStringGO.GetComponent<RealtimeTransform>().RequestOwnership();
             bigStringGO.GetComponent<RealtimeView>().RequestOwnership();
             bigStringGO.transform.position = transform.position + transform.forward;
             bigStringGO.transform.rotation = transform.rotation;
             makingString = true;
             print("yaayss");
         }
+        }
+    }
+
+    public void EndMessage(){
+        print("uppp");
+        makingString = false;
     }
 
 void OnGUI(){
 
-    if( makingString ){;
-        print("sdhsdjs");
+    if( makingString ){
     Event e = Event.current;
     if( e.type == EventType.KeyDown ){
-
         if ( e.keyCode.ToString().Length == 1 &&
             char.IsLetter(e.keyCode.ToString()[0])  ){
             bigStringBoy.SetString(e.keyCode.ToString()[0].ToString());
