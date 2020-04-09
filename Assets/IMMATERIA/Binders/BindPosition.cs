@@ -7,8 +7,7 @@ public class BindPosition : Binder
     public string name;
     public Transform transform;
 
-
     public override void Bind(){
-        toBind.BindVector3(name, ()=>transform.position);
+        toBind.BindVector3(name, () => transform.position);
     }
 }

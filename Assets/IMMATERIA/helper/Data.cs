@@ -29,9 +29,9 @@ public class Data : Cycle
   public God god;
 
   public override void Create(){
-    SafeInsert(humans);
+    if( humans != null ){ SafeInsert(humans); }
     camera = Camera.main.transform;
-    realtime = GameObject.FindGameObjectWithTag("REALTIME").GetComponent<Realtime>();
+   if( realtime == null ){ realtime = GameObject.FindGameObjectWithTag("REALTIME").GetComponent<Realtime>(); }
   }
 
 
